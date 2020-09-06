@@ -78,4 +78,9 @@ public class DocController {
         return ResponseEntity.ok(updatedComment);
     }
 
+    @GetMapping("/getAllComments")
+    public ResponseEntity getAllComments(){
+        List<Comment> allComments = commentService.getAllComments();
+        return ResponseEntity.ok(allComments);
+    }
 }

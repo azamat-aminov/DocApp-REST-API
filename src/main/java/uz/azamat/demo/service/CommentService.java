@@ -8,6 +8,8 @@ import uz.azamat.demo.repository.ApplicationRepository;
 import uz.azamat.demo.repository.CommentRepository;
 import uz.azamat.demo.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class CommentService {
     CommentRepository commentRepository;
@@ -21,7 +23,7 @@ public class CommentService {
         this.applicationRepository = applicationRepository;
     }
 
-    public void saveComment(Comment comment){
+    public void saveComment(Comment comment) {
         Application app = applicationRepository.findById(1);
         User user = userRepository.findById(1);
         comment.setApplication(app);
@@ -36,5 +38,9 @@ public class CommentService {
         updatedComment.setText(comment.getText());
 
         return commentRepository.save(updatedComment);
+    }
+
+    public List<Comment> getAllComments() {
+        return commentRepository.findAll();
     }
 }
