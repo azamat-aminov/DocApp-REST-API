@@ -12,10 +12,13 @@ import java.util.List;
 
 @RestController
 public class DocController {
-    @Autowired
     UserService userService;
-    @Autowired
     ApplicationService applicationService;
+
+    public DocController(UserService userService, ApplicationService applicationService) {
+        this.userService = userService;
+        this.applicationService = applicationService;
+    }
 
     @PostMapping("/saveUser")
     public int saveUser(@RequestBody User user) {
@@ -46,10 +49,17 @@ public class DocController {
         User updatedUser = userService.updateUser(user, id);
         return ResponseEntity.ok(updatedUser);
     }
+
     @PutMapping("/updateApplication/{id}")
     public ResponseEntity updateApplication(@PathVariable int id, @RequestBody Application application){
         Application updatedApplication = applicationService.updateApplication(application, id);
         return ResponseEntity.ok(updatedApplication);
+    }
+
+    @DeleteMapping("/deleteApplication/{id}")
+    public ResponseEntity deleteApplication(@PathVariable int id){
+        int i = applicationService.deleteById(id);
+        return ResponseEntity.ok(i);
     }
 
 }

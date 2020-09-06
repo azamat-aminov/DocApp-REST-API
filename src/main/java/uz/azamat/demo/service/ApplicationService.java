@@ -38,4 +38,7 @@ public class ApplicationService {
         return applicationRepository.save(updatedApplication);
 
     }
+    public int deleteById(int id){
+        return applicationRepository.deleteById(id);
+    }
 }
