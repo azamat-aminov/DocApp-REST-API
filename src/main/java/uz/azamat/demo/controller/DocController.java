@@ -46,4 +46,10 @@ public class DocController {
         User updatedUser = userService.updateUser(user, id);
         return ResponseEntity.ok(updatedUser);
     }
+    @PutMapping("/updateApplication/{id}")
+    public ResponseEntity updateApplication(@PathVariable int id, @RequestBody Application application){
+        Application updatedApplication = applicationService.updateApplication(application, id);
+        return ResponseEntity.ok(updatedApplication);
+    }
+
 }
