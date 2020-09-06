@@ -3,8 +3,10 @@ package uz.azamat.demo.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.azamat.demo.model.Application;
+import uz.azamat.demo.model.Comment;
 import uz.azamat.demo.model.User;
 import uz.azamat.demo.service.ApplicationService;
+import uz.azamat.demo.service.CommentService;
 import uz.azamat.demo.service.UserService;
 
 import java.util.List;
@@ -13,10 +15,13 @@ import java.util.List;
 public class DocController {
     UserService userService;
     ApplicationService applicationService;
+    CommentService commentService;
 
-    public DocController(UserService userService, ApplicationService applicationService) {
+    public DocController(UserService userService, ApplicationService applicationService,
+                         CommentService commentService) {
         this.userService = userService;
         this.applicationService = applicationService;
+        this.commentService = commentService;
     }
 
     @PostMapping("/saveUser")
@@ -59,6 +64,12 @@ public class DocController {
     public ResponseEntity deleteApplication(@PathVariable int id){
         int i = applicationService.deleteById(id);
         return ResponseEntity.ok(i);
+    }
+
+    @PostMapping("/saveComment")
+    public int saveUser(@RequestBody Comment comment) {
+        commentService.saveComment(comment);
+        return comment.getId();
     }
 
 }
