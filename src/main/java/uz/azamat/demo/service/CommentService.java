@@ -29,4 +29,12 @@ public class CommentService {
 
         commentRepository.save(comment);
     }
+
+    public Comment updateComment(Comment comment, int id){
+        Comment updatedComment = commentRepository.findById(id);
+        updatedComment.setId(id);
+        updatedComment.setText(comment.getText());
+
+        return commentRepository.save(updatedComment);
+    }
 }

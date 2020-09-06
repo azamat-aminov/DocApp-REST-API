@@ -55,13 +55,13 @@ public class DocController {
     }
 
     @PutMapping("/updateApplication/{id}")
-    public ResponseEntity updateApplication(@PathVariable int id, @RequestBody Application application){
+    public ResponseEntity updateApplication(@PathVariable int id, @RequestBody Application application) {
         Application updatedApplication = applicationService.updateApplication(application, id);
         return ResponseEntity.ok(updatedApplication);
     }
 
     @DeleteMapping("/deleteApplication/{id}")
-    public ResponseEntity deleteApplication(@PathVariable int id){
+    public ResponseEntity deleteApplication(@PathVariable int id) {
         int i = applicationService.deleteById(id);
         return ResponseEntity.ok(i);
     }
@@ -70,6 +70,12 @@ public class DocController {
     public int saveUser(@RequestBody Comment comment) {
         commentService.saveComment(comment);
         return comment.getId();
+    }
+
+    @PutMapping("/updateComment/{id}")
+    public ResponseEntity updateComment(@PathVariable int id, @RequestBody Comment comment) {
+        Comment updatedComment = commentService.updateComment(comment, id);
+        return ResponseEntity.ok(updatedComment);
     }
 
 }
