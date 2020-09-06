@@ -1,6 +1,5 @@
 package uz.azamat.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.azamat.demo.model.Application;
 import uz.azamat.demo.model.User;
@@ -11,11 +10,11 @@ import java.util.List;
 @Service
 public class ApplicationService {
     ApplicationRepository applicationRepository;
-    @Autowired
     UserService userService;
 
-    public ApplicationService(ApplicationRepository applicationRepository) {
+    public ApplicationService(ApplicationRepository applicationRepository, UserService userService) {
         this.applicationRepository = applicationRepository;
+        this.userService = userService;
     }
 
     public void saveApplication(Application application) {
