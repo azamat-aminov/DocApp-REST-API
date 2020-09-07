@@ -5,6 +5,9 @@ import uz.azamat.demo.model.User;
 import uz.azamat.demo.model.UserDto;
 import uz.azamat.demo.repository.UserRepository;
 
+import javax.xml.bind.DatatypeConverter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,13 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void saveUser(User user) {
+    public void saveUser(User user) throws NoSuchAlgorithmException {
+        String password = user.getPassword();
+        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+        messageDigest.update(password.getBytes());
+        byte[] digest = messageDigest.digest();
+        String hashedOutput = DatatypeConverter.printHexBinary(digest);
+        user.setPassword(hashedOutput);
         userRepository.save(user);
     }
 
@@ -41,7 +50,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User updateUser(User user, int id) {
+    public User updateUser(User user, int id) throws NoSuchAlgorithmException {
         User updatedUser = userRepository.findById(id);
         updatedUser.setId(id);
         updatedUser.setFirstName(user.getFirstName());
@@ -49,7 +58,12 @@ public class UserService {
         updatedUser.setDate(user.getDate());
         updatedUser.setAddress(user.getAddress());
         updatedUser.setLogin(user.getLogin());
-        updatedUser.setPassword(user.getPassword());
+        String password = user.getPassword();
+        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+        messageDigest.update(password.getBytes());
+        byte[] digest = messageDigest.digest();
+        String hashedOutput = DatatypeConverter.printHexBinary(digest);
+        updatedUser.setPassword(hashedOutput);
 
         return userRepository.save(updatedUser);
     }

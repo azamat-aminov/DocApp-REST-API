@@ -7,6 +7,7 @@ import uz.azamat.demo.service.ApplicationService;
 import uz.azamat.demo.service.CommentService;
 import uz.azamat.demo.service.UserService;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class DocController {
     }
 
     @PostMapping("/saveUser")
-    public int saveUser(@RequestBody User user) {
+    public int saveUser(@RequestBody User user) throws NoSuchAlgorithmException {
         userService.saveUser(user);
         return user.getId();
     }
@@ -35,7 +36,7 @@ public class DocController {
     }
 
     @PutMapping("/updateUser/{id}")
-    public ResponseEntity updateUser(@PathVariable int id, @RequestBody User user) {
+    public ResponseEntity updateUser(@PathVariable int id, @RequestBody User user) throws NoSuchAlgorithmException {
         User updatedUser = userService.updateUser(user, id);
         return ResponseEntity.ok(updatedUser);
     }
