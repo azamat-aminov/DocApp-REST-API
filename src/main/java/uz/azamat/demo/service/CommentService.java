@@ -3,11 +3,13 @@ package uz.azamat.demo.service;
 import org.springframework.stereotype.Service;
 import uz.azamat.demo.model.Application;
 import uz.azamat.demo.model.Comment;
+import uz.azamat.demo.model.CommentDto;
 import uz.azamat.demo.model.User;
 import uz.azamat.demo.repository.ApplicationRepository;
 import uz.azamat.demo.repository.CommentRepository;
 import uz.azamat.demo.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,7 +42,16 @@ public class CommentService {
         return commentRepository.save(updatedComment);
     }
 
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
+    public List<CommentDto> getAllComments() {
+        List<CommentDto> list = new ArrayList<>();
+        for(Comment c : commentRepository.findAll()) {
+            CommentDto commentDto = new CommentDto();
+            commentDto.setId(c.getId());
+            commentDto.setText(c.getText());
+            commentDto.setApplicationId(c.getApplication().getId());
+            commentDto.setUserId(c.getUser().getId());
+            list.add(commentDto);
+        }
+        return list;
     }
 }

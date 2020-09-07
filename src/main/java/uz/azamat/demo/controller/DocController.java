@@ -2,9 +2,7 @@ package uz.azamat.demo.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.azamat.demo.model.Application;
-import uz.azamat.demo.model.Comment;
-import uz.azamat.demo.model.User;
+import uz.azamat.demo.model.*;
 import uz.azamat.demo.service.ApplicationService;
 import uz.azamat.demo.service.CommentService;
 import uz.azamat.demo.service.UserService;
@@ -32,7 +30,7 @@ public class DocController {
 
     @GetMapping("/getAllUsers")
     public ResponseEntity getAllUsers() {
-        List<User> allUser = userService.getAllUser();
+        List<UserDto> allUser = userService.getAllUser();
         return ResponseEntity.ok(allUser);
     }
 
@@ -50,7 +48,7 @@ public class DocController {
 
     @GetMapping("/getAllApplications")
     public ResponseEntity getAllApplications() {
-        List<Application> allApplications = applicationService.getAllApplications();
+        List<ApplicationDto> allApplications = applicationService.getAllApplications();
         return ResponseEntity.ok(allApplications);
     }
 
@@ -80,7 +78,7 @@ public class DocController {
 
     @GetMapping("/getAllComments")
     public ResponseEntity getAllComments(){
-        List<Comment> allComments = commentService.getAllComments();
+        List<CommentDto> allComments = commentService.getAllComments();
         return ResponseEntity.ok(allComments);
     }
 }
