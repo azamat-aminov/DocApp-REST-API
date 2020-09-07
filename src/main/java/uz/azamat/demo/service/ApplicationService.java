@@ -28,7 +28,7 @@ public class ApplicationService {
     public List<ApplicationDto> getAllApplications() {
         List<Application> all = applicationRepository.findAll();
         List<ApplicationDto> list = new ArrayList<>();
-        for (Application application : all){
+        for (Application application : all) {
             ApplicationDto applicationDto = new ApplicationDto();
             applicationDto.setId(application.getId());
             applicationDto.setHeading(application.getHeading());
@@ -40,17 +40,26 @@ public class ApplicationService {
         return list;
     }
 
-    public Application updateApplication(Application application, int id) {
+    public ApplicationDto updateApplication(Application application, int id) {
         Application updatedApplication = applicationRepository.findById(id);
+        ApplicationDto applicationDto = new ApplicationDto();
         updatedApplication.setId(id);
         updatedApplication.setHeading(application.getHeading());
         updatedApplication.setText(application.getText());
         updatedApplication.setDate(application.getDate());
 
-        return applicationRepository.save(updatedApplication);
+        updatedApplication = applicationRepository.save(updatedApplication);
 
+        applicationDto.setId(updatedApplication.getId());
+        applicationDto.setHeading(updatedApplication.getHeading());
+        applicationDto.setText(updatedApplication.getText());
+        applicationDto.setDate(updatedApplication.getDate());
+        applicationDto.setUserId(updatedApplication.getUser().getId());
+
+        return applicationDto;
     }
-    public int deleteById(int id){
+
+    public int deleteById(int id) {
         return applicationRepository.deleteById(id);
     }
 }

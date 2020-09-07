@@ -34,17 +34,26 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public Comment updateComment(Comment comment, int id){
+    public CommentDto updateComment(Comment comment, int id) {
         Comment updatedComment = commentRepository.findById(id);
+        CommentDto commentDto = new CommentDto();
         updatedComment.setId(id);
         updatedComment.setText(comment.getText());
 
-        return commentRepository.save(updatedComment);
+
+        updatedComment = commentRepository.save(updatedComment);
+
+        commentDto.setId(updatedComment.getId());
+        commentDto.setText(updatedComment.getText());
+        commentDto.setUserId(updatedComment.getUser().getId());
+        commentDto.setApplicationId(updatedComment.getApplication().getId());
+
+        return commentDto;
     }
 
     public List<CommentDto> getAllComments() {
         List<CommentDto> list = new ArrayList<>();
-        for(Comment c : commentRepository.findAll()) {
+        for (Comment c : commentRepository.findAll()) {
             CommentDto commentDto = new CommentDto();
             commentDto.setId(c.getId());
             commentDto.setText(c.getText());
