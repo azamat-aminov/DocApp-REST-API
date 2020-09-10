@@ -90,4 +90,9 @@ public class DocController {
     public String checkLoginAndPassword(@RequestBody LoginPassword lp) throws NoSuchAlgorithmException {
         return loginPasswordService.checkLogPass(lp.getLogin(), lp.getPassword());
     }
+    @DeleteMapping("/deleteComment/{id}")
+    public ResponseEntity deleteComment(@PathVariable int id) {
+        String s = commentService.deleteById(id);
+        return ResponseEntity.ok(s);
+    }
 }

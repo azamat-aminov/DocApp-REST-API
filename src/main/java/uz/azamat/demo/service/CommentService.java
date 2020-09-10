@@ -45,9 +45,9 @@ public class CommentService {
 
         int userId = updatedComment.getUser().getId();
         int currentUserId = getCurrentUser().getId();
-        if (userId == currentUserId){
+        if (userId == currentUserId) {
             updatedComment = commentRepository.save(updatedComment);
-        }else {
+        } else {
             throw new Exception("You did not create this comment. So you do not update it");
         }
 
@@ -70,5 +70,17 @@ public class CommentService {
             list.add(commentDto);
         }
         return list;
+    }
+
+    public String deleteById(int id) {
+        Comment comment = commentRepository.findById(id);
+        int userId = comment.getUser().getId();
+        int currentUserId = getCurrentUser().getId();
+        if (userId == currentUserId){
+            commentRepository.deleteById(id);
+            return "Comment deleted";
+        }else {
+            return "You did not create this comment. So you do not delete it";
+        }
     }
 }
