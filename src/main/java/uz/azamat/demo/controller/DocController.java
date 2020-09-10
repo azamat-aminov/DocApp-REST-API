@@ -57,15 +57,15 @@ public class DocController {
     }
 
     @PutMapping("/updateApplication/{id}")
-    public ResponseEntity updateApplication(@PathVariable int id, @RequestBody Application application) {
+    public ResponseEntity updateApplication(@PathVariable int id, @RequestBody Application application) throws Exception {
         ApplicationDto updatedApplicationDto = applicationService.updateApplication(application, id);
         return ResponseEntity.ok(updatedApplicationDto);
     }
 
     @DeleteMapping("/deleteApplication/{id}")
     public ResponseEntity deleteApplication(@PathVariable int id) {
-        int i = applicationService.deleteById(id);
-        return ResponseEntity.ok(i);
+        String s = applicationService.deleteById(id);
+        return ResponseEntity.ok(s);
     }
 
     @PostMapping("/saveComment")
