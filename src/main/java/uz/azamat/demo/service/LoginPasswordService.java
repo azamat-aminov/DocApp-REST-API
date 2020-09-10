@@ -3,6 +3,7 @@ package uz.azamat.demo.service;
 import org.springframework.stereotype.Service;
 import uz.azamat.demo.model.User;
 import uz.azamat.demo.repository.UserRepository;
+import uz.azamat.demo.token.GenerateToken;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
@@ -18,6 +19,7 @@ public class LoginPasswordService {
     }
 
     public String checkLogPass(String login, String password) throws NoSuchAlgorithmException {
+        GenerateToken generateToken = new GenerateToken(userRepository);
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         messageDigest.update(password.getBytes());
         byte[] digest = messageDigest.digest();
@@ -27,7 +29,7 @@ public class LoginPasswordService {
             String login2 = user.getLogin();
             String password2 = user.getPassword();
             if (login2.equals(login) && password2.equals(hashedPassword)){
-                return "correct login and password";
+                return generateToken.getToken(login2);
             }
         }
         return "incorrect login and password";
