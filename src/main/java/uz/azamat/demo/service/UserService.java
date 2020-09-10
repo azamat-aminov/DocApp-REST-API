@@ -11,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uz.azamat.demo.filter.LogAndPassFilter.getCurrentUser;
+
 @Service
 public class UserService {
     UserRepository userRepository;
@@ -46,10 +48,6 @@ public class UserService {
         return list;
     }
 
-    public User findByID(int id) {
-        return userRepository.findById(id);
-    }
-
     public User updateUser(User user, int id) throws NoSuchAlgorithmException {
         User updatedUser = userRepository.findById(id);
         updatedUser.setId(id);
@@ -65,6 +63,12 @@ public class UserService {
         String hashedOutput = DatatypeConverter.printHexBinary(digest);
         updatedUser.setPassword(hashedOutput);
 
-        return userRepository.save(updatedUser);
+        int userId = updatedUser.getId();
+        int currentUserId = getCurrentUser().getId();
+        if (userId == currentUserId) {
+            return userRepository.save(updatedUser);
+        } else {
+            return null;
+        }
     }
 }
