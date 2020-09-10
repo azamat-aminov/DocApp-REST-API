@@ -9,6 +9,8 @@ import uz.azamat.demo.repository.ApplicationRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uz.azamat.demo.filter.LogAndPassFilter.getCurrentUser;
+
 @Service
 public class ApplicationService {
     ApplicationRepository applicationRepository;
@@ -20,9 +22,11 @@ public class ApplicationService {
     }
 
     public void saveApplication(Application application) {
-        User user = userService.findByID(1);
-        application.setUser(user);
-        applicationRepository.save(application);
+        User user = getCurrentUser();
+        if (user != null) {
+            application.setUser(user);
+            applicationRepository.save(application);
+        }
     }
 
     public List<ApplicationDto> getAllApplications() {
@@ -40,15 +44,20 @@ public class ApplicationService {
         return list;
     }
 
-    public ApplicationDto updateApplication(Application application, int id) {
+    public ApplicationDto updateApplication(Application application, int id) throws Exception {
         Application updatedApplication = applicationRepository.findById(id);
         ApplicationDto applicationDto = new ApplicationDto();
         updatedApplication.setId(id);
         updatedApplication.setHeading(application.getHeading());
         updatedApplication.setText(application.getText());
         updatedApplication.setDate(application.getDate());
-
-        updatedApplication = applicationRepository.save(updatedApplication);
+        int userId = updatedApplication.getUser().getId();
+        int currentUserId = getCurrentUser().getId();
+        if (userId == currentUserId) {
+            updatedApplication = applicationRepository.save(updatedApplication);
+        } else {
+            throw new Exception("You did not create this application. So you do not update it");
+        }
 
         applicationDto.setId(updatedApplication.getId());
         applicationDto.setHeading(updatedApplication.getHeading());
@@ -59,7 +68,15 @@ public class ApplicationService {
         return applicationDto;
     }
 
-    public int deleteById(int id) {
-        return applicationRepository.deleteById(id);
+    public String deleteById(int id) {
+        Application application = applicationRepository.findById(id);
+        int userId = application.getUser().getId();
+        int currentUserId = getCurrentUser().getId();
+        if (userId == currentUserId) {
+            applicationRepository.deleteById(id);
+            return "User deleted";
+        } else {
+            return "You did not create this application. So you do not update it";
+        }
     }
 }
