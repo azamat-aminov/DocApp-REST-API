@@ -68,9 +68,9 @@ public class DocController {
         return ResponseEntity.ok(s);
     }
 
-    @PostMapping("/saveComment")
-    public int saveUser(@RequestBody Comment comment) {
-        commentService.saveComment(comment);
+    @PostMapping("/saveComment/{id}")
+    public int saveUser(@PathVariable int id, @RequestBody Comment comment) {
+        commentService.saveComment(comment, id);
         return comment.getId();
     }
 

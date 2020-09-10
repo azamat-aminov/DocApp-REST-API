@@ -12,6 +12,8 @@ import uz.azamat.demo.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uz.azamat.demo.filter.LogAndPassFilter.getCurrentUser;
+
 @Service
 public class CommentService {
     CommentRepository commentRepository;
@@ -25,9 +27,10 @@ public class CommentService {
         this.applicationRepository = applicationRepository;
     }
 
-    public void saveComment(Comment comment) {
-        Application app = applicationRepository.findById(1);
-        User user = userRepository.findById(1);
+    public void saveComment(Comment comment, int id) {
+        int currentUserId = getCurrentUser().getId();
+        Application app = applicationRepository.findById(id);
+        User user = userRepository.findById(currentUserId);
         comment.setApplication(app);
         comment.setUser(user);
 
