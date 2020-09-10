@@ -37,14 +37,19 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public CommentDto updateComment(Comment comment, int id) {
+    public CommentDto updateComment(Comment comment, int id) throws Exception {
         Comment updatedComment = commentRepository.findById(id);
         CommentDto commentDto = new CommentDto();
         updatedComment.setId(id);
         updatedComment.setText(comment.getText());
 
-
-        updatedComment = commentRepository.save(updatedComment);
+        int userId = updatedComment.getUser().getId();
+        int currentUserId = getCurrentUser().getId();
+        if (userId == currentUserId){
+            updatedComment = commentRepository.save(updatedComment);
+        }else {
+            throw new Exception("You did not create this comment. So you do not update it");
+        }
 
         commentDto.setId(updatedComment.getId());
         commentDto.setText(updatedComment.getText());

@@ -75,7 +75,7 @@ public class DocController {
     }
 
     @PutMapping("/updateComment/{id}")
-    public ResponseEntity updateComment(@PathVariable int id, @RequestBody Comment comment) {
+    public ResponseEntity updateComment(@PathVariable int id, @RequestBody Comment comment) throws Exception {
         CommentDto updatedComment = commentService.updateComment(comment, id);
         return ResponseEntity.ok(updatedComment);
     }
