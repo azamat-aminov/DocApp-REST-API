@@ -32,6 +32,6 @@ public class LoginPasswordService {
                 return generateToken.getToken(login2);
             }
         }
-        return "incorrect login and password";
+        return "Incorrect login or password";
     }
 }

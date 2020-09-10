@@ -39,8 +39,8 @@ public class DocController {
     }
 
     @PutMapping("/updateUser/{id}")
-    public ResponseEntity updateUser(@PathVariable int id, @RequestBody User user) throws NoSuchAlgorithmException {
-        User updatedUser = userService.updateUser(user, id);
+    public ResponseEntity updateUser(@PathVariable int id, @RequestBody User user) throws Exception {
+        UserDto updatedUser = userService.updateUser(user, id);
         return ResponseEntity.ok(updatedUser);
     }
 

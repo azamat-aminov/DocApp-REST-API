@@ -48,7 +48,7 @@ public class UserService {
         return list;
     }
 
-    public User updateUser(User user, int id) throws NoSuchAlgorithmException {
+    public UserDto updateUser(User user, int id) throws Exception {
         User updatedUser = userRepository.findById(id);
         updatedUser.setId(id);
         updatedUser.setFirstName(user.getFirstName());
@@ -66,9 +66,19 @@ public class UserService {
         int userId = updatedUser.getId();
         int currentUserId = getCurrentUser().getId();
         if (userId == currentUserId) {
-            return userRepository.save(updatedUser);
+            userRepository.save(updatedUser);
         } else {
-            return null;
+            throw new Exception("You did not create this user. So you do not update it");
         }
+        UserDto userDto = new UserDto();
+        userDto.setId(updatedUser.getId());
+        userDto.setFirstName(updatedUser.getFirstName());
+        userDto.setLastName(updatedUser.getLastName());
+        userDto.setDate(updatedUser.getDate());
+        userDto.setAddress(updatedUser.getAddress());
+        userDto.setLogin(updatedUser.getLogin());
+        userDto.setPassword(updatedUser.getPassword());
+
+        return userDto;
     }
 }
