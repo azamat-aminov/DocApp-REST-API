@@ -76,7 +76,7 @@ public class ApplicationService {
             applicationRepository.deleteById(id);
             return "User deleted";
         } else {
-            return "You did not create this application. So you do not update it";
+            return "You did not create this application. So you do not delete it";
         }
     }
 }
