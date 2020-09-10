@@ -11,7 +11,6 @@ import uz.azamat.demo.token.ParseToken;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Component
 @Order(1)
@@ -26,7 +25,7 @@ public class LogAndPassFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
-                         FilterChain filterChain) throws IOException, ServletException {
+                         FilterChain filterChain) {
         try {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             String path = request.getRequestURI();
