@@ -44,9 +44,8 @@ public class ApplicationService {
         return list;
     }
 
-    public ApplicationDto updateApplication(Application application, int id) throws Exception {
+    public ApplicationDto updateApplication(ApplicationDto application, int id) throws Exception {
         Application updatedApplication = applicationRepository.findById(id);
-        ApplicationDto applicationDto = new ApplicationDto();
         updatedApplication.setId(id);
         updatedApplication.setHeading(application.getHeading());
         updatedApplication.setText(application.getText());
@@ -59,13 +58,13 @@ public class ApplicationService {
             throw new Exception("You did not create this application. So you do not update it");
         }
 
-        applicationDto.setId(updatedApplication.getId());
-        applicationDto.setHeading(updatedApplication.getHeading());
-        applicationDto.setText(updatedApplication.getText());
-        applicationDto.setDate(updatedApplication.getDate());
-        applicationDto.setUserId(updatedApplication.getUser().getId());
+        application.setId(updatedApplication.getId());
+        application.setHeading(updatedApplication.getHeading());
+        application.setText(updatedApplication.getText());
+        application.setDate(updatedApplication.getDate());
+        application.setUserId(updatedApplication.getUser().getId());
 
-        return applicationDto;
+        return application;
     }
 
     public String deleteById(int id) {
@@ -74,7 +73,7 @@ public class ApplicationService {
         int currentUserId = getCurrentUser().getId();
         if (userId == currentUserId) {
             applicationRepository.deleteById(id);
-            return "User deleted";
+            return "Application deleted";
         } else {
             return "You did not create this application. So you do not delete it";
         }
