@@ -29,7 +29,8 @@ public class LogAndPassFilter implements Filter {
         try {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             String path = request.getRequestURI();
-            if ("/checkLoginAndPassword".equals(path) || "/saveUser".equals(path)) {
+            if (!path.startsWith("/docs") || "/docs/checkLoginAndPassword".equals(path)
+                    || "/docs/saveUser".equals(path)) {
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
             }
